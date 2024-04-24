@@ -19,11 +19,9 @@ from std_srvs.srv import Trigger
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 
-#WAYPOINT_PATH = '/home/ros2_ws/src/waypoint_manager2/config/waypoints/tsudanuma2-3.yaml'
-# WAYPOINT_PATH = '/home/ros2_ws/src/waypoint_manager2/config/waypoints/tsukuba_check_area_way.yaml'
-# WAYPOINT_PATH = '/home/ros2_ws/src/waypoint_manager2/config/waypoints/tsukuba_all_way.yaml'
-WAYPOINT_PATH = '/home/ros2_ws/src/waypoint_manager2/config/waypoints/tsudanuma_gaisyu_res01_way.yaml'
-# WAYPOINT_SAVE_PATH = '/home/ros2_ws/src/waypoint_manager2/config/waypoints/test_output.yaml'
+WAYPOINT_PATH = '/home/takumi/ros2_ws/src/orne-box/orne_box_navigation_executor/config/waypoints/tsudanuma2-3.yaml'
+# WAYPOINT_PATH = '/home/takumi/ros2_ws/src/orne-box/orne_box_navigation_executor/config/waypoints/tsudanuma.yaml'
+
 WP_FEEDBACK_VISIBLE = True
 OVERWRITE = True
 TIME_PERIOD = 0.1
@@ -243,7 +241,7 @@ class waypoint_manager2_node(Node):
         menu_handler.setCheckState(radius_mode_last, MenuHandler.UNCHECKED)
         radius_mode_last = feedback.menu_entry_id
 
-        # menu_entry_id: 0.5 -> 9, 0.75 -> 10, 1.0 -> 11, 1.5 -> 12
+        # menu_entry_id: 0.5 -> 9, 0.75 -> 10, 1.0 -> 11, 1.5 -> 12, 3.0 -> 13
         waypoints = self.config['waypoint_server']['waypoints']
         if 'properties' not in waypoints[int(feedback.marker_name)]:
             waypoints[int(feedback.marker_name)]['properties'] = {}
@@ -255,6 +253,8 @@ class waypoint_manager2_node(Node):
             waypoints[int(feedback.marker_name)]['properties'].update(goal_radius = 1.0)
         elif feedback.menu_entry_id == 12:
             waypoints[int(feedback.marker_name)]['properties'].update(goal_radius = 1.5)
+        elif feedback.menu_entry_id == 13:
+            waypoints[int(feedback.marker_name)]['properties'].update(goal_radius = 3.0)
 
         menu_handler.setCheckState(radius_mode_last, MenuHandler.CHECKED)
         menu_handler.reApply(self.server)
